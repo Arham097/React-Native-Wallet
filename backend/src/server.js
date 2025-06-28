@@ -1,10 +1,11 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
 import cors from "cors";
 import { sql } from "./config/db.js";
-import rateLimiter from "./middlewares/ratelimiter.js";
+import rateLimiter from "./middlewares/rateLimiter.js";
 import transactionRoutes from "./routes/transactionRoute.js";
-dotenv.config();
 const app = express();
 
 // Middleware configuration
