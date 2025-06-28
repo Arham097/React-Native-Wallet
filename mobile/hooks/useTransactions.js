@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 
-const API_URL = "http://localhost:5001/api";
+const API_URL =
+  "https://7399dc2c-0118-42da-ac47-af2ac5d97045.e1-us-east-azure.choreoapps.dev/api";
 
 export default useTransaction = (userId) => {
   const [transactions, setTransactions] = useState([]);

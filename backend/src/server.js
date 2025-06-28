@@ -6,7 +6,10 @@ import cors from "cors";
 import { sql } from "./config/db.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 import transactionRoutes from "./routes/transactionRoute.js";
+import job from "./config/cron.js";
 const app = express();
+
+job.start(); // Start the cron job
 
 // Middleware configuration
 app.use(rateLimiter);

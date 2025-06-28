@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../constants/colors";
+import { COLORS } from "../../constants/color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -24,8 +24,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerLogo: {
-    width: 75,
-    height: 75,
+    width: 70,
+    height: 70,
   },
   welcomeContainer: {
     flex: 1,
