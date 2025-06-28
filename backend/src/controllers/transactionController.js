@@ -27,7 +27,7 @@ export const createTransaction = async (req, res) => {
     SELECT COALESCE(SUM(amount), 0)::DECIMAL AS balance
     FROM transactions WHERE user_id = ${user_id}`;
 
-    if (category === "expense" && fetchBalance[0].balance + amount < 0) {
+    if (amount < 0 && parseFloat(fetchBalance[0].balance) + amount < 0) {
       return res
         .status(400)
         .json({ error: "Insufficient balance for this transaction." });

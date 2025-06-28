@@ -64,11 +64,6 @@ export default function Page() {
     );
   };
 
-  console.log("User ID:", user?.id);
-  console.log("Transactions:", transactions);
-  console.log("Summary:", summary);
-  console.log("Loading:", loading);
-
   if (loading && !refreshing) return <PageLoader />;
 
   if (!user) return <PageLoader />; // Show loader if user is not loaded yet
