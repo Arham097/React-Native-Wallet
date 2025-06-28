@@ -29,7 +29,7 @@ const BalanceCard = ({ summary }) => {
         <View style={styles.balanceStatItem}>
           <Text style={styles.balanceStatLabel}>Expenses</Text>
           <Text style={[styles.balanceStatAmount, { color: COLORS.expense }]}>
-            Rs. {Math.abs(expenses).toFixed(2)}
+            -Rs. {Math.abs(expenses).toFixed(2)}
           </Text>
         </View>
       </View>

@@ -22,14 +22,25 @@ export const createTransaction = async (req, res) => {
     if (!user_id || !title || !category || amount === undefined) {
       return res.status(400).json({ error: "All fields are required." });
     }
-    const transation = await sql`
+
+    const fetchBalance = await sql`
+    SELECT COALESCE(SUM(amount), 0)::DECIMAL AS balance
+    FROM transactions WHERE user_id = ${user_id}`;
+
+    if (category === "expense" && fetchBalance[0].balance + amount < 0) {
+      return res
+        .status(400)
+        .json({ error: "Insufficient balance for this transaction." });
+    }
+
+    const transaction = await sql`
     INSERT INTO transactions (user_id, title, amount, category)
     VALUES(${user_id}, ${title}, ${amount}, ${category})
     RETURNING *;
     `;
 
-    console.log("Transaction created:", transation);
-    return res.status(201).json(transation[0]);
+    console.log("Transaction created:", transaction);
+    return res.status(201).json(transaction[0]);
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
   }
