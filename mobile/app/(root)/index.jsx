@@ -23,10 +23,13 @@ export default function Page() {
   const { user } = useUser();
   const [refreshing, setRefreshing] = useState(false);
   const { transactions, summary, loading, loadData, deleteTrasaction } =
-    useTransactions(user.id);
+    useTransactions(user?.id);
+
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (user?.id) {
+      loadData();
+    }
+  }, [loadData, user?.id]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -61,10 +64,14 @@ export default function Page() {
     );
   };
 
-  console.log("User ID:", user.id);
+  console.log("User ID:", user?.id);
   console.log("Transactions:", transactions);
+  console.log("Summary:", summary);
+  console.log("Loading:", loading);
 
   if (loading && !refreshing) return <PageLoader />;
+
+  if (!user) return <PageLoader />; // Show loader if user is not loaded yet
 
   return (
     <View style={styles.container}>
@@ -106,7 +113,9 @@ export default function Page() {
         style={styles.transactionsList}
         data={transactions}
         contentContainerStyle={styles.transactionsListContent}
-        // keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) =>
+          item.id ? item.id.toString() : index.toString()
+        }
         renderItem={({ item }) => (
           <TransactionItem item={item} onDelete={handleDelete} />
         )}

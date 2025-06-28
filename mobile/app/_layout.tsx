@@ -4,6 +4,7 @@ import { ClerkProvider, ClerkLoaded, ClerkLoading } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { Slot } from "expo-router";
 import { Text, View, ActivityIndicator } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -29,6 +30,7 @@ export default function RootLayout() {
           <Slot />
         </ClerkLoaded>
       </SafeScreen>
+      <StatusBar style="dark" />
     </ClerkProvider>
   );
 }

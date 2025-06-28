@@ -66,17 +66,33 @@ export const getTransactionSummary = async (req, res) => {
     return res.status(400).json({ error: "User ID is required." });
   }
   console.log("Fetching summary for user:", userId);
-  const summary = await sql`
-      SELECT COALESCE(SUM(amount), 0) AS balance,
-      COALESCE(SUM(amount) FILTER (WHERE amount <0), 0) AS expenses,
-      COALESCE(SUM(amount) FILTER (WHERE amount> 0),0) AS income
-      FROM transactions WHERE user_id = ${userId}`;
+  try {
+    const summary = await sql`
+        SELECT 
+          COALESCE(SUM(amount), 0)::DECIMAL AS balance,
+          COALESCE(SUM(amount) FILTER (WHERE amount < 0), 0)::DECIMAL AS expenses,
+          COALESCE(SUM(amount) FILTER (WHERE amount > 0), 0)::DECIMAL AS income
+        FROM transactions WHERE user_id = ${userId}`;
 
-  if (summary.length === 0) {
-    return res
-      .status(404)
-      .json({ error: "No transactions found for this user." });
+    if (summary.length === 0) {
+      return res.status(200).json({
+        balance: 0,
+        income: 0,
+        expenses: 0,
+      });
+    }
+
+    // Convert strings to numbers to ensure proper JSON serialization
+    const result = {
+      balance: parseFloat(summary[0].balance) || 0,
+      income: parseFloat(summary[0].income) || 0,
+      expenses: parseFloat(summary[0].expenses) || 0,
+    };
+
+    console.log("Summary result:", result);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching summary:", error);
+    return res.status(500).json({ error: "Internal server error." });
   }
-
-  return res.status(200).json(summary[0]);
 };
