@@ -23,7 +23,6 @@ export default useTransaction = (userId) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched transactions:", data);
       // Ensure data is an array
       setTransactions(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -43,7 +42,6 @@ export default useTransaction = (userId) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched summary:", data);
       // Ensure summary has proper default values
       setSummary({
         balance: data?.balance || 0,
@@ -63,7 +61,6 @@ export default useTransaction = (userId) => {
 
   const loadData = useCallback(async () => {
     if (!userId) {
-      console.error("User ID is required to fetch transactions and summary.");
       return;
     }
     setLoading(true);

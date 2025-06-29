@@ -33,6 +33,14 @@ const createScreen = () => {
   const [isExpense, setIsExpense] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleClear = () => {
+    setTitle("");
+    setAmount("");
+    setSelectedCategory("");
+    setIsExpense(true);
+    setIsLoading(false);
+  };
+
   const handleCreate = async () => {
     if (!title.trim()) return Alert.alert("Error", "Title is required.");
     if (!amount || isNaN(parseFloat(amount) || parseFloat(amount) <= 0)) {
@@ -68,8 +76,10 @@ const createScreen = () => {
       }
       Alert.alert("Success", "Transaction created successfully.");
       router.back(); // Navigate back to the previous screen
+      handleClear(); // Clear the form fields
     } catch (error) {
       Alert.alert("Error", error.message || "Failed to create transaction.");
+      handleClear();
     } finally {
       setIsLoading(false);
     }

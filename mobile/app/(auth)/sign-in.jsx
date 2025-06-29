@@ -37,16 +37,20 @@ export default function Page() {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
         setError("Sign-in incomplete. Please check your credentials.");
-        console.error(JSON.stringify(signInAttempt, null, 2));
+        // console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err) {
       // Handle sign-in errors
       if (err.errors && err.errors.length > 0) {
-        setError(err.errors[0].message);
+        setError(
+          err.errors[0].longMessage ||
+            err.errors[0].message ||
+            "An error occurred"
+        );
       } else {
         setError("Sign-in failed. Please check your email and password.");
       }
-      console.error(JSON.stringify(err, null, 2));
+      // console.error(JSON.stringify(err, null, 2));
     }
   };
 

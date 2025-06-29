@@ -36,7 +36,7 @@ export default function Page() {
     try {
       await loadData();
     } catch (error) {
-      console.error("Error refreshing data:", error);
+      // console.error("Error refreshing data:", error);
     } finally {
       setRefreshing(false);
     }
@@ -56,7 +56,11 @@ export default function Page() {
               await deleteTrasaction(id);
               loadData(); // Reload data after deletion
             } catch (error) {
-              console.error("Error deleting transaction:", error);
+              Alert.alert(
+                "Error",
+                "Failed to delete transaction. Please try again later."
+              );
+              // console.error("Error deleting transaction:", error);
             }
           },
         },

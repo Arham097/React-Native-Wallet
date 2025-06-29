@@ -46,7 +46,10 @@ export default function SignUpScreen() {
     } catch (err) {
       // Handle specific error cases
       if (err.errors && err.errors.length > 0) {
-        const errorMessage = err.errors[0].message;
+        const errorMessage =
+          err.errors[0].longMessage ||
+          err.errors[0].message ||
+          "An error occurred";
         setError(errorMessage);
 
         // Show alert for password breach specifically
@@ -60,7 +63,7 @@ export default function SignUpScreen() {
       } else {
         setError("An error occurred during sign up. Please try again.");
       }
-      console.error(JSON.stringify(err, null, 2));
+      // console.error(JSON.stringify(err, null, 2));
     }
   };
 
@@ -87,7 +90,7 @@ export default function SignUpScreen() {
         setError(
           "Verification incomplete. Please check the code and try again."
         );
-        console.error(JSON.stringify(signUpAttempt, null, 2));
+        // console.error(JSON.stringify(signUpAttempt, null, 2));
       }
     } catch (err) {
       // Handle verification errors
@@ -96,7 +99,7 @@ export default function SignUpScreen() {
       } else {
         setError("Verification failed. Please check your code and try again.");
       }
-      console.error(JSON.stringify(err, null, 2));
+      // console.error(JSON.stringify(err, null, 2));
     }
   };
 
